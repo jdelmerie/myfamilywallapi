@@ -32,7 +32,7 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> signin(@RequestBody Users userToSignin) {
         Users user = null;
-        if (!userService.isEmailOrUsernameToken(userToSignin.getEmail(), userToSignin.getUsername())) {
+        if (!userService.checkIfUsernameExist(userToSignin.getUsername()) && !userService.checkIfEmailExist(userToSignin.getEmail())) {
             List<Role> role = new ArrayList<>();
             role.add(roleService.getOneById(2).get());
             user = new Users((Long) null, userToSignin.getEmail(), userToSignin.getUsername(),
@@ -43,4 +43,5 @@ public class AuthController {
         }
         return ResponseEntity.badRequest().body("ERROR");
     }
+
 }
