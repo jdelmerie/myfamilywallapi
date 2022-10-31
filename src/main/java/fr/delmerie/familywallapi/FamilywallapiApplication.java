@@ -23,7 +23,7 @@ public class FamilywallapiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("BACK BIEN EN ROUTE");
-		Role admin = roleService.save(new Role(null, "ADMIN"));
-		Role user = roleService.save(new Role(null, "USER"));
+//		Role admin = roleService.save(new Role(null, "ADMIN"));
+//		Role user = roleService.save(new Role(null, "USER"));
 	}
 }

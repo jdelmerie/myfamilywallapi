@@ -36,17 +36,18 @@ public class UserServiceImpl implements APIService<Users> {
 
     }
 
-    public boolean checkIfEmailExist(String email) {
+    public boolean isEmailOrUsernameToken(String email, String username) {
         if (usersRepository.findByEmail(email) != null) {
             throw new AlwaysExistException("Cet email est déjà utilisé !");
         }
-        return false;
-    }
 
-    public boolean checkIfUsernameExist(String username) {
         if (usersRepository.findByUsername(username) != null) {
             throw new AlwaysExistException("Ce pseudo existe déjà !");
         }
         return false;
+    }
+
+    public Users getByEmail(String username) {
+        return usersRepository.findByEmail(username);
     }
 }

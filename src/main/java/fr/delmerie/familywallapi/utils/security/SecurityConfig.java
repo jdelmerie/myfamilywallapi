@@ -1,5 +1,6 @@
 package fr.delmerie.familywallapi.utils.security;
 
+import fr.delmerie.familywallapi.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             + "INNER JOIN role r ON ur.roles_id = r.id \r\n"
             + "where email = ?";
 
+    @Autowired
+    private UserServiceImpl userService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder passwordEncoder = passwordEncoder();
@@ -50,8 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/tes").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/auth/signin").permitAll();
-        http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
+                .antMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/login").permitAll();
+        http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean(), userService));
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
